@@ -20,6 +20,7 @@ PubSubClient client(espClient);
 #define TRIG_PIN3 25
 #define ECHO_PIN3 33
 #define BUZZER_PIN 32
+#define MOTOR 19
 #define DISTANCE_THRESHOLD 20
 
 #define MPU_ADDR 0x68
@@ -44,6 +45,11 @@ void setup() {
   pinMode(TRIG_PIN3, OUTPUT);
   pinMode(ECHO_PIN3, INPUT);
   pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(MOTOR_IN1, OUTPUT);
+  pinMode(MOTOR_IN2, OUTPUT);
+  digitalWrite(MOTOR_IN1, LOW);
+  digitalWrite(MOTOR_IN2, LOW);
+
 
   Wire.begin();
   initMPU();
@@ -198,10 +204,23 @@ void sendEmergencyAlert() {
 
 void activateBuzzer() {
   digitalWrite(BUZZER_PIN, HIGH);
+  activateMotor();
   Serial.println("Buzzer Activated!");
 }
 
 void deactivateBuzzer() {
   digitalWrite(BUZZER_PIN, LOW);
+  deactivateMotor();
   Serial.println("Buzzer Deactivated!");
 }
+
+void activateMotor() {
+  digitalWrite(MOTOR, HIGH);
+  Serial.println("Vibration Motor Activated!");
+}
+
+void deactivateMotor() {
+  digitalWrite(MOTOR, LOW);
+  Serial.println("Vibration Motor Deactivated!");
+}
+
