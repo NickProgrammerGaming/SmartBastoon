@@ -45,11 +45,7 @@ void setup() {
   pinMode(TRIG_PIN3, OUTPUT);
   pinMode(ECHO_PIN3, INPUT);
   pinMode(BUZZER_PIN, OUTPUT);
-  pinMode(MOTOR_IN1, OUTPUT);
-  pinMode(MOTOR_IN2, OUTPUT);
-  digitalWrite(MOTOR_IN1, LOW);
-  digitalWrite(MOTOR_IN2, LOW);
-
+  pinMode(MOTOR, OUTPUT);
 
   Wire.begin();
   initMPU();
@@ -223,4 +219,3 @@ void deactivateMotor() {
   digitalWrite(MOTOR, LOW);
   Serial.println("Vibration Motor Deactivated!");
 }
-
