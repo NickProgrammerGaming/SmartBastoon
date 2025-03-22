@@ -7,7 +7,7 @@ import os
 mqtt_broker = "localhost"
 mqtt_port = 1883
 mqtt_topic = "esp32cam/image"
-mqtt_response_topic = "esp32cam/response"
+mqtt_response_topic = "esp32/response"
 
 image_save_path = "/home/redpassion/Bastoon/"
 if not os.path.exists(image_save_path):
