@@ -87,7 +87,6 @@ void loop() {
   client.loop();
 
   sendImageMQTT();
-  delay(10000);  // Delay before taking the next image
 }
 
 void connectWifi() {
