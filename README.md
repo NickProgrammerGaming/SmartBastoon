@@ -2,15 +2,15 @@
 
 Смарт бастун за незрящи хора, който включва различни сензори, интернет на нещата (IoT), blockchain за сигурност и уеб интерфейс за наблюдение.
 
-Версия 1 на Smart Bastoon
+- Версия 1 на Smart Bastoon
 
 ![bastoon](https://github.com/user-attachments/assets/048e7ef7-c51a-4b81-b634-308204378de0)
 
-Версия 2 на Smart Bastoon (на бредборд)
+- Версия 2 на Smart Bastoon (на бредборд)
 
 ![image](https://github.com/user-attachments/assets/cc821061-2647-4e52-9d5a-07a0c4644733)
 
-Версия 2 на Smart Batsoon (завършен)
+- Версия 2 на Smart Batsoon (завършен)
 
 *TBA*
 
