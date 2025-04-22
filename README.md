@@ -8,7 +8,7 @@
 
 Версия 2 на Smart Bastoon (на бредборд)
 
-
+![image](https://github.com/user-attachments/assets/cc821061-2647-4e52-9d5a-07a0c4644733)
 
 Версия 2 на Smart Batsoon (завършен)
 
