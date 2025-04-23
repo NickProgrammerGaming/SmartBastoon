@@ -5,7 +5,7 @@
 // WiFi & MQTT
 const char* ssid = "Naiki";
 const char* password = "fortinayt";
-const char* mqtt_server = "192.168.248.174";
+const char* mqtt_server = "raspberrypi.local";
 const int mqtt_port = 1883;
 const char* distance_topic = "esp32/sensordata";
 const char* emergency_topic = "esp32/emergency";
@@ -81,44 +81,44 @@ long readDistance(int trig, int echo) {
 }
 
 void activateAlert() {
-  digitalWrite(BUZZER, HIGH);
+  tone(BUZZER, 2000);  // Increased frequency for louder tone  // 1kHz tone for passive buzzer
   digitalWrite(MOTOR, HIGH);
   digitalWrite(LED_INDICATOR, HIGH);
 }
 
 void deactivateAlert() {
-  digitalWrite(BUZZER, LOW);
+  noTone(BUZZER);
   digitalWrite(MOTOR, LOW);
   digitalWrite(LED_INDICATOR, LOW);
 }
 
 // === WiFi ===
 void tryConnectWiFi() {
-  if (WiFi.status() != WL_CONNECTED) {
-    WiFi.begin(ssid, password);
-    Serial.print("Connecting to WiFi");
-    for (int i = 0; i < 10 && WiFi.status() != WL_CONNECTED; i++) {
-      delay(300);
-      Serial.print(".");
-    }
-    if (WiFi.status() == WL_CONNECTED) {
-      Serial.println("\nWiFi connected. IP: " + WiFi.localIP().toString());
-    } else {
-      Serial.println("\nWiFi connection failed");
-    }
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print("ESP32 IP Address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print(".");
   }
+  Serial.print("WiFi connected. IP: ");
+  Serial.println(WiFi.localIP());
 }
-
+ 
 // === MQTT ===
 void reconnectMQTT() {
-  if (!client.connected() && WiFi.status() == WL_CONNECTED) {
+  client.setServer(mqtt_server, mqtt_port);
+  while (!client.connected()) {
+    Serial.println("Connecting to MQTT...");
     if (client.connect("ESP32SensorClient")) {
-      Serial.println("MQTT connected");
+      Serial.println("Connected to MQTT broker");
     } else {
-      Serial.println("MQTT reconnect failed");
+      Serial.print("MQTT reconnect failed, rc=");
+      Serial.println(client.state());
+      delay(5000);
     }
   }
-}
+} 
 
 void sendSensorData() {
   String payload = "{";
@@ -138,8 +138,8 @@ void sensorLoop(void* pv) {
     dist3 = readDistance(TRIG3, ECHO3);
     dist4 = readDistance(TRIG4, ECHO4);
 
-    if (dist1 < DIST_THRESHOLD || dist2 < DIST_THRESHOLD ||
-        dist3 < DIST_THRESHOLD || dist4 < DIST_THRESHOLD) {
+    if ((dist1 > 0 && dist1 < DIST_THRESHOLD) || (dist2 > 0 && dist2 < DIST_THRESHOLD) ||
+        (dist3 > 0 && dist3 < DIST_THRESHOLD) || (dist4 > 0 && dist4 < DIST_THRESHOLD)) {
       activateAlert();
     } else {
       deactivateAlert();
@@ -161,9 +161,11 @@ void sensorLoop(void* pv) {
 }
 
 void commsLoop(void* pv) {
-  while (true) {
-    tryConnectWiFi();
-    reconnectMQTT();
+  
+  tryConnectWiFi();
+  reconnectMQTT();
+  
+  while (true) { 
     client.setBufferSize(5120);
     client.loop();
 
