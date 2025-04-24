@@ -7,7 +7,7 @@ const char* ssid = "Naiki";
 const char* password = "fortinayt";
 
 // MQTT Broker details
-const char* mqtt_server = "192.168.236.174";
+const char* mqtt_server = "raspberrypi.local";
 const int mqtt_port = 1883;
 const char* mqtt_topic = "esp32cam/image";  // Topic to publish the image
 const char* confirmation_topic = "esp32cam/confirmation"; // Topic to send confirmation
